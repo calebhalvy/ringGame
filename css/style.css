@@ -1,0 +1,22 @@
+#content {
+	position: relative;
+	margin: 0 auto 0 auto;
+	width: 900px;
+
+}
+#winScreen{
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 25px 25px;
+	z-index: 5;
+	visibility:hidden;
+}
+#game {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 25px 25px;
+	z-index: 0;
+	
+}

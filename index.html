@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ring Game</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/font.css">
+		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="content">
+			<canvas id="winScreen" width="900px" height="600px"></canvas>
+			<canvas id="game" width="900px" height="600px"></canvas>
+		</div>
+	</body>
+
+	<script>
+
+	/******************************** GAME CANVAS ************************************/
+        var canvas = this.document.getElementById("game");
+        var ctx = canvas.getContext("2d");
+
+        var width = 900,
+	        height = 600;
+
+	    var colorArray1 = generateColors(); // circle1
+    	var colorArray2 = generateColors(); // circle2
+    	var colorArray3 = generateColors(); // circle3
+    	var score = 0;
+
+
+    	var circle1 = {
+    		x: 330,
+    		y: 410,
+    		innerR: 155,
+    		outerR: 170,
+    		start: 0.0*Math.PI,
+    		end: 2*Math.PI - .1,
+    		token: 1
+    	}
+
+    	var circle2 = {
+    		x: 555,
+    		y: 362,
+    		innerR: 155,
+    		outerR: 170,
+    		start: 0.0*Math.PI,
+    		end: 2*Math.PI - .1,
+    		token: 2
+    	}
+
+    	var circle3 = {
+    		x: 401,
+    		y: 192,
+    		innerR: 155,
+    		outerR: 170,
+    		start: 0.0*Math.PI,
+    		end: 2*Math.PI - .1,
+    		token: 3
+    	}
+
+    	var topAnswerCircle = {
+    		x: 418,
+    		y: 274,
+    		radius: 20,
+    		start: 0,
+    		end: 2*Math.PI,
+    		fillColor: ""
+    	}
+
+		var bottomAnswerCircle = {
+    		x: 466,
+    		y: 499,
+    		radius: 20,
+    		start: 0,
+    		end: 2*Math.PI,
+    		fillColor: ""
+    	}
+
+    	var leftAnswerCircle = {
+    		x: 256,
+    		y: 266,
+    		radius: 20,
+    		start: 0,
+    		end: 2*Math.PI,
+    		fillColor: ""
+    	}
+
+    	var rightAnswerCircle = {
+    		x: 563,
+    		y: 201,
+    		radius: 20,
+    		start: 0,
+    		end: 2*Math.PI,
+    		fillColor: ""
+    	}
+
+    	var midLeftAnswerCircle = {
+    		x: 393,
+    		y: 355,
+    		radius: 20,
+    		start: 0,
+    		end: 2*Math.PI,
+    		fillColor: ""
+    	}
+
+    	var midRightAnswerCircle = {
+    		x: 475,
+    		y: 337,
+    		radius: 20,
+    		start: 0,
+    		end: 2*Math.PI,
+    		fillColor: ""
+    	}
+
+
+    	/******************** DRAW STARTING SCREEN ********************/
+		ctx.clearRect(0,0,width,height);
+
+		drawAnswerCircle(topAnswerCircle);
+		drawAnswerCircle(bottomAnswerCircle);
+		//drawAnswerCircle(leftAnswerCircle);
+    	//drawAnswerCircle(rightAnswerCircle);
+    	//drawAnswerCircle(midLeftAnswerCircle);
+    	//drawAnswerCircle(midRightAnswerCircle);
+		drawCircle(circle1,colorArray1);
+		drawCircle(circle2,colorArray2);
+		//drawCircle(circle3,colorArray3);
+		/**************** END DRAW STARTING SCREEN ********************/
+
+
+    	var looping = false;
+    	var interval;
+    	window.onkeydown = function (evt) {
+
+    		function startGame() {
+
+	    		// if the game has not begun, start game
+	    		if(looping === false) {
+	    			window.requestAnimationFrame(gameLoop);
+	    			looping = true;
+
+	    			score -= 100; // offset for starting game
+
+	    			interval = setInterval(function () {
+	  					++score;
+					}, 10);
+	    		}
+    		}
+    		if(document.getElementById("winScreen").style.visibility !== "visible" ) {
+	    		switch(evt.keyCode) {
+	    			/*************** LEFT CIRCLE ******************/
+	    			case 87: // w key
+	    				// Shift colors in color array to the right one and put 23 into 0
+						var tempArray = [];
+						tempArray.push(colorArray1[23]);
+						for(var i=0; i<23; i++) {
+							tempArray.push(colorArray1[i]);
+						}
+						colorArray1 = tempArray;
+
+						score += 100;
+
+						startGame();
+	    				break;
+
+	    			case 83: // s key
+		    			// shift colors in color array tot he left one and put 0 into 23
+						var tempArray = [];
+						var firstColor = colorArray1[0];
+						for(var i=1; i<24; i++) {
+							tempArray.push(colorArray1[i]);
+						}
+						tempArray.push(firstColor);
+						colorArray1 = tempArray;
+
+						score += 100;
+
+						startGame();
+	    				break;
+
+					/*************** RIGHT CIRCLE ******************/
+	    			case 73: // i key
+	    				// Shift colors in color array to the right one and put 23 into 0
+						var tempArray = [];
+						tempArray.push(colorArray2[23]);
+						for(var i=0; i<23; i++) {
+							tempArray.push(colorArray2[i]);
+						}
+						colorArray2 = tempArray;
+
+						score += 100;
+
+						startGame();
+	    				break;
+
+	    			case 75: // k key
+	    				// shift colors in color array tot he left one and put 0 into 23
+						var tempArray = [];
+						var firstColor = colorArray2[0];
+						for(var i=1; i<24; i++) {
+							tempArray.push(colorArray2[i]);
+						}
+						tempArray.push(firstColor);
+						colorArray2 = tempArray;
+
+						score += 100;
+
+						startGame();
+	    				break;
+
+					/*************** TOP CIRCLE ******************/
+	    			case 84: // t key
+		    			// Shift colors in color array to the right one and put 23 into 0
+						var tempArray = [];
+						tempArray.push(colorArray3[23]);
+						for(var i=0; i<23; i++) {
+							tempArray.push(colorArray3[i]);
+						}
+						colorArray3 = tempArray;
+
+						score += 100;
+
+						startGame();
+	    				break;
+
+	    			case 71: // g key
+	    				// shift colors in color array tot he left one and put 0 into 23
+						var tempArray = [];
+						var firstColor = colorArray3[0];
+						for(var i=1; i<24; i++) {
+							tempArray.push(colorArray3[i]);
+						}
+						tempArray.push(firstColor);
+						colorArray3 = tempArray;
+
+						score += 100;
+						startGame();
+	    				break;
+	    		}
+	    	}
+
+			if(evt.keyCode === 13 && document.getElementById("winScreen").style.visibility === "visible" ) {
+				restartGame();
+			}
+			
+		};
+
+    	// Where all the magic happens
+    	function gameLoop() {
+    		draw();
+    		checkMatch();
+    		checkWinner();
+    
+  			// Run the game loop over and over again
+    		window.requestAnimationFrame(gameLoop);
+		}
+
+		function checkMatch() {
+			// check intersection colors
+			topAnswerCircle.fillColor = colorArray1[20];
+			bottomAnswerCircle.fillColor = colorArray1[2];
+			//leftAnswerCircle.fillColor = colorArray1[16];
+			//rightAnswerCircle.fillColor = colorArray2[18];
+			//midLeftAnswerCircle.fillColor = colorArray2[12];
+			//midRightAnswerCircle.fillColor = colorArray1[22];
+		}
+
+		function checkWinner() {
+			if(colorArray1[2].localeCompare(colorArray2[8]) === 0 && // top middle
+				colorArray1[20].localeCompare(colorArray2[14]) === 0 // && // bottom middle
+				//colorArray1[16].localeCompare(colorArray3[10]) === 0 && // top left
+				//colorArray1[22].localeCompare(colorArray3[4]) === 0 && // center right
+				//colorArray2[12].localeCompare(colorArray3[6]) === 0 && // center left
+				//colorArray3[18].localeCompare(colorArray3[0]) === 0 // top right
+                ) {
+				document.getElementById("winScreen").style.visibility="visible";
+
+				window.cancelAnimationFrame(gameLoop);
+
+				clearInterval(interval);
+				
+			}
+		}
+
+    	function draw() {
+
+    		// clear drawn pixels before drawing again
+    		ctx.clearRect(0,0,width,height);
+
+    		drawAnswerCircle(topAnswerCircle);
+    		drawAnswerCircle(bottomAnswerCircle);
+    		//drawAnswerCircle(leftAnswerCircle);
+    		//drawAnswerCircle(rightAnswerCircle);
+    		////drawAnswerCircle(midLeftAnswerCircle);
+    		//drawAnswerCircle(midRightAnswerCircle);
+    		drawCircle(circle1,colorArray1);
+    		drawCircle(circle2,colorArray2);
+    		//drawCircle(circle3,colorArray3);
+
+
+    		// draw score
+    		ctx.fillStyle = "rgb(0, 0, 0)";
+    		ctx.font = "2em Comic Neue";
+			ctx.fillText("Score: "+score, 600, 50);
+    	}
+
+    	function drawCircle(circle, colorArray) {
+    		var j=0;
+    		for(var i=circle.start; i<circle.end; i=i+.261799){
+			        ctx.beginPath();
+			        ctx.strokeStyle = colorArray[j];
+					ctx.fillStyle = colorArray[j];
+			        ctx.lineWidth = 3;
+			        ctx.arc(circle.x,circle.y,circle.innerR,i,i+.1); // inner lines
+			        ctx.arc(circle.x,circle.y,circle.outerR,i+.1,i, true); // outer lines
+			        ctx.arc(circle.x,circle.y,circle.innerR,i,i);
+			        ctx.closePath();
+			        ctx.stroke();
+			        ctx.fill();
+			   	j++;
+			}
+    	}
+
+    	function drawAnswerCircle(answerCircle) {
+    		ctx.beginPath();
+    		ctx.arc(answerCircle.x,answerCircle.y,answerCircle.radius,answerCircle.start,answerCircle.end);
+    		ctx.fillStyle = answerCircle.fillColor;
+    		ctx.closePath();
+    		ctx.fill();
+    	}
+    	
+    	function generateColors() {
+    		var colorArray = [];
+    		var colors = ['red','blue','green','yellow','orange','purple','pink','gray','lime','crimson'];
+    		var i=0;
+    		while(i<=24) {
+    			colorArray.push(colors[Math.floor((Math.random()*10))]);
+    			i++;
+    		}
+
+
+    		return colorArray;
+    	}
+
+    	
+
+    	function restartGame() {
+    		colorArray1 = generateColors(); // circle1
+    		colorArray2 = generateColors(); // circle2
+    		colorArray3 = generateColors(); // circle3
+    		score = 0;
+    		looping = false;
+
+    		window.requestAnimationFrame(gameLoop);
+    		document.getElementById("winScreen").style.visibility="hidden";
+    	}
+
+    	/******************************** END GAME CANVAS *********************************/
+
+    	/********************************* WIN CANVAS *************************************/
+    	var wCanvas = document.getElementById("winScreen");
+    	wCtx = wCanvas.getContext("2d");
+
+    	wCtx.beginPath();
+    	wCtx.rect(0,0,width,height)
+    	wCtx.fillStyle = "rgba(0,255,0,0.3)"
+    	wCtx.closePath();
+    	wCtx.fill();
+
+		wCtx.textAlign = 'center';
+		wCtx.fillStyle = 'rgb(0,0,0)';
+		wCtx.font = "2em Comic Neue";
+    	wCtx.fillText("Press Enter to Start Again",width/2, height/2);
+    	/******************************** END WIN CANVAS ********************************/
+
+    </script>
+
+</html>
