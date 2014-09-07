@@ -4,13 +4,17 @@
 		<title>Ring Game</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/font.css">
-		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<div id="content">
 			<canvas id="winScreen" width="900px" height="600px"></canvas>
 			<canvas id="game" width="900px" height="600px"></canvas>
 		</div>
+        <div id="name">RING GAME</div>
+        <div id="rules">To turn the left ring, use W(CW) and S(CCW)<br>
+                        To turn the right ring, use I(CW) and K(CCW)<br>
+                        Score increments 100 every second and 100 every keystroke
+        </div>
 	</body>
 
 	<script>
@@ -370,7 +374,7 @@
 		wCtx.textAlign = 'center';
 		wCtx.fillStyle = 'rgb(0,0,0)';
 		wCtx.font = "2em Comic Neue";
-    	wCtx.fillText("Press Enter to Start Again",width/2, height/2);
+    	wCtx.fillText("Press Enter to Start Again",width/2, height/2 - 125);
     	/******************************** END WIN CANVAS ********************************/
 
     </script>

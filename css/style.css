@@ -20,3 +20,17 @@
 	z-index: 0;
 	
 }
+
+#name {
+	position: absolute;
+	top: .2em;
+	left: 20%;
+	font-size: 4em;
+}
+
+#rules {
+	position: absolute;
+	top: 5.2em;
+	left: 20%;
+	font-size: 1em;	
+}
